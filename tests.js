@@ -53,7 +53,7 @@ function month_name_is(el, expected) {
 
 test( "month name must be present", function() {
     $cl = setup({date: new Date(2013, 0, 30)});
-    ok(month_name_is($cl, 'Janeiro 2013'))
+    ok(month_name_is($cl, 'January 2013'))
 });
 
 test( "next and previous link must be present", function() {
@@ -74,14 +74,14 @@ test( "prev link should work", function() {
     $cl = setup({date: new Date(2013, 0, 30)});
     links = get_prev_next_links($cl)
     $(links[0]).click()
-    ok(month_name_is($cl, 'Dezembro 2012'))
+    ok(month_name_is($cl, 'December 2012'))
 });
 
 test( "next link should work", function() {
     $cl = setup({date: new Date(2013, 0, 30)});
     links = get_prev_next_links($cl)
     $(links[1]).click()
-    ok(month_name_is($cl, 'Fevereiro 2013'))
+    ok(month_name_is($cl, 'February 2013'))
 });
 
 test( "when change month callback must be called", function() {
@@ -127,7 +127,7 @@ test( "when load events they should appear", function() {
     expect( 4 )
     $cl = setup({date: new Date(2016, 1, 1)});
     $cl.set_events(events)
-    ok(month_name_is($cl, 'Novembro 2013'), 'The month name is ok')
+    ok(month_name_is($cl, 'November 2013'), 'The month name is ok')
 
     $days = $cl.children('.days_of_month').children('p').children('span.day.event')
     equal($days[0].innerHTML, "1", "Day 1 must have an event")
@@ -162,7 +162,7 @@ test( "when use function 'set_date' calendar must change and show the new date",
     expect( 2 )
 
     $cl = setup({date: new Date(2016, 1, 1)})
-    ok(month_name_is($cl, 'Fevereiro 2016'), 'First render with Febuary 2016')
+    ok(month_name_is($cl, 'February 2016'), 'First render with Febuary 2016')
     $cl.set_date(new Date(1988, 11, 1))
-    ok(month_name_is($cl, 'Dezembro 1988'), 'Change date to December 1988')
+    ok(month_name_is($cl, 'December 1988'), 'Change date to December 1988')
 });
