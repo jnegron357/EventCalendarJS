@@ -1,0 +1,57 @@
+body {
+	padding: 20px;
+}
+.title {
+	padding-bottom: 28px;
+	border-bottom: 2px solid #ccc;
+}
+.calendar {
+	text-align: center;
+	font-size: 18px;
+	border: 1px solid #eee;
+}
+
+.month_name {
+	border-bottom: 1px solid #ccc;
+	padding: 7px 0px;
+	background-color: #eee;
+	margin-bottom: 5px;
+}
+
+.month_name a {
+	text-decoration: none;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.day {
+	cursor: pointer;
+}
+
+.day.event {
+	background-color: #800000;
+	color: white;
+}
+
+.day.today {
+	background-color: #99CCFF;
+	font-weight: bold;
+	color: black;
+}
+
+.day.past, .day-empty {
+	opacity: 0.40;
+}
+
+.weekday {
+	padding-bottom: 6px;
+	border-bottom: 1px solid #eee;
+}
+
+.days_of_month {
+	margin-top: 6px;
+}
+
+form {
+	width: 350px;
+}
