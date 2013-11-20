@@ -6,13 +6,21 @@ TODO:
 ***/
  (function ( $ ) {
 
- 	// default localization object in PT_BR
+ 	// default localization object in EN
 	var dflt_l10n = {
-		month_names: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-					   'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-		weekdays: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-		weekdays_short: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+		month_names: ['January', 'February', 'March', 'April', 'May', 'June',
+					   'July', 'August', 'September', 'October', 'November', 'December'],
+		weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+		weekdays_short: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 	}
+
+    // localization obj in pt_br
+    var pt_br = {
+      month_names: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+               'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      weekdays: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+      weekdays_short: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+    }
 
     $.fn.calendarjs = function( options ) {
 

@@ -1,3 +1,11 @@
+// default localization object in PT_BR
+var pt_br = {
+  month_names: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+           'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+  weekdays: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+  weekdays_short: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+}
+
 $("#date_to_go").mask('99/99/9999')
 
 var dayclick = function(cl, date, evt) {
@@ -97,6 +105,7 @@ var load_events = function(mes) {
 }
 
 var calendario = $('.calendar').calendarjs({
+  l10n: pt_br,
   date: new Date(2013, 0, 30),
   day_click_cb: dayclick,
   month_change_cb: month_change,
