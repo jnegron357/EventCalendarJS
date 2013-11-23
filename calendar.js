@@ -6,13 +6,13 @@ TODO:
 ***/
  (function ( $ ) {
 
- 	// default localization object in EN
-	var dflt_l10n = {
-		month_names: ['January', 'February', 'March', 'April', 'May', 'June',
-					   'July', 'August', 'September', 'October', 'November', 'December'],
-		weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-		weekdays_short: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-	}
+    // default localization object in EN
+    var dflt_l10n = {
+        month_names: ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'],
+        weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        weekdays_short: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    }
 
     // localization obj in pt_br
     var pt_br = {
@@ -38,7 +38,7 @@ TODO:
             month_change_cb: function(){}
         }, options );
 
-		var l10n = settings.l10n
+        var l10n = settings.l10n
         var date = settings.date
         var month = date.getMonth()
         var year = date.getFullYear()
@@ -60,56 +60,56 @@ TODO:
 
         // check if year is bissextile
         function is_bis() {
-        	return ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))
+            return ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0)))
         }
 
         function get_month_nodays() {
-        	return (32 - new Date(year, month, 32).getDate())
+            return (32 - new Date(year, month, 32).getDate())
         }
 
         function get_month_name() {
-        	return l10n.month_names[month]
+            return l10n.month_names[month]
         }
 
         function get_days_week() {
-        	if(settings.short_weekdays)
-        		return l10n.weekdays_short
-        	else
-        		return l10n.weekdays
+            if(settings.short_weekdays)
+                return l10n.weekdays_short
+            else
+                return l10n.weekdays
         }
 
         // get the size of a collumn
         function get_col_width() {
-        	return settings.width / 7
+            return settings.width / 7
         }
 
         // render the month name line
         function render_month_line() {
             if(!$(settings.next_link).hasClass('next'))
                 settings.next_link = $(settings.next_link).addClass('next')[0].outerHTML
-        	return '<p class="month_name">' + settings.prev_link + get_month_name() + ' ' + date.getFullYear() + settings.next_link + '</p>'
+            return '<p class="month_name">' + settings.prev_link + get_month_name() + ' ' + date.getFullYear() + settings.next_link + '</p>'
         }
 
         // render de weekdays line
         function render_weekdays() {
-        	var weekdays = get_days_week()
-        	var cellwidth = get_col_width()
-        	var $output  = $('<p/>').css({'display': 'table-row'})
-        	for(var i=0; i < weekdays.length; i++) {
-        		weekday = $("<span class='weekday " + weekdays[i] + "'>" + weekdays[i] + '</span>')
-        		weekday.css({width: cellwidth, display: 'table-cell'})
-        		$output.append(weekday)
-        	}
-        	return $output
+            var weekdays = get_days_week()
+            var cellwidth = get_col_width()
+            var $output  = $('<p/>').css({'display': 'table-row'})
+            for(var i=0; i < weekdays.length; i++) {
+                weekday = $("<span class='weekday " + weekdays[i] + "'>" + weekdays[i] + '</span>')
+                weekday.css({width: cellwidth, display: 'table-cell'})
+                $output.append(weekday)
+            }
+            return $output
         }
 
         // render all days of a month
         function render_days() {
-        	var nodays = get_month_nodays()
-        	var cellwidth = get_col_width()
-        	var per_line = 7
-        	var counter = 0
-        	var weekday_start_month = new Date(date.getFullYear(), date.getMonth(), '1').getDay()
+            var nodays = get_month_nodays()
+            var cellwidth = get_col_width()
+            var per_line = 7
+            var counter = 0
+            var weekday_start_month = new Date(date.getFullYear(), date.getMonth(), '1').getDay()
 
             // init calendar month/year and today month/year/day
             var cmonth = date.getMonth(), cyear = date.getFullYear()
@@ -124,42 +124,45 @@ TODO:
                 'width': cellwidth
             }
 
-        	$div_days = $('<div class="days_of_month"/>')
+            $div_days = $('<div class="days_of_month"/>')
 
-        	for(var i = 1; i <= nodays; i++) {
-				if(counter == 0)
-        			$line = $('<p/>').css(line_css)
+            for(var i = 1; i <= nodays; i++) {
+                if(counter == 0)
+                    $line = $('<p/>').css(line_css)
 
                 // if is the first day of month, lets print it below its weekname
-        		if(i == 1 && (i-1) != weekday_start_month) {
-        			while(counter < weekday_start_month) {
-        				$day = $("<span class='day-empty'/>").html('-').css(day_css)
-        				$line.append($day)
-        				counter++
-        			}
-        		}
+                if(i == 1 && (i-1) != weekday_start_month) {
+                    while(counter < weekday_start_month) {
+                        $day = $("<span class='day-empty'/>").html('-').css(day_css)
+                        $line.append($day)
+                        counter++
+                    }
+                }
 
-        		$day = $("<span class='day'/>").html(i).css(day_css)
+                $day = $("<span class='day'/>").html(i).css(day_css)
                 $day.data('date', pad(i.toString()) + '/' + (month+1) + '/' + year)
 
                 if(cmonth == imonth && cyear == iyear && i == iday)
                     $day.addClass('today')
-                else if(cmonth < imonth || cyear < iyear || i < iday)
+                else if(cmonth < imonth && cyear <= iyear)
+                    $day.addClass('past')
+                else if(cmonth == imonth && i < iday)
                     $day.addClass('past')
 
-        		$days_els.push($day)
-        		$line.append($day)
-        		counter++
 
-        		if(counter == 7) {
-        			$div_days.append($line)
-        			counter = 0
-        		}
-			}
-			if(counter != 0)
-				$div_days.append($line)
+                $days_els.push($day)
+                $line.append($day)
+                counter++
 
-			return $div_days
+                if(counter == 7) {
+                    $div_days.append($line)
+                    counter = 0
+                }
+            }
+            if(counter != 0)
+                $div_days.append($line)
+
+            return $div_days
         }
 
         // render the calendar
@@ -172,33 +175,33 @@ TODO:
         }
 
         function set_next_prev_links() {
-        	$( el ).on( "click", "a.next, a.prev", function(e) {
+            $( el ).on( "click", "a.next, a.prev", function(e) {
                 e.preventDefault()
-        		month = date.getMonth()
-        		year = date.getFullYear()
+                month = date.getMonth()
+                year = date.getFullYear()
 
                 var old_date = new Date(date)
 
-        		if($(this).hasClass('next'))
-        			month += 1
-        		else
-        			month -= 1
+                if($(this).hasClass('next'))
+                    month += 1
+                else
+                    month -= 1
 
-        		if( month < 0) {
-					year--
+                if( month < 0) {
+                    year--
                     month = 11
-        			date.setFullYear(year)
-        		}
+                    date.setFullYear(year)
+                }
                 else if(month > 11) {
                     year++
                     month = 0
                     date.setFullYear(year)
                 }
                 date.setDate(1)
-        		date.setMonth(month)
-        		render_calendar()
+                date.setMonth(month)
+                render_calendar()
                 settings.month_change_cb(old_date, date)
-			});
+            });
         }
 
         function set_days_click_callback() {

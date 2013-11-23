@@ -106,12 +106,11 @@ var load_events = function(mes) {
 
 var calendario = $('.calendar').calendarjs({
   l10n: pt_br,
-  date: new Date(2013, 0, 30),
   day_click_cb: dayclick,
   month_change_cb: month_change,
 })
 
-//calendario.set_events(load_events(10))
+calendario.set_events(load_events(10))
 
 $("form").submit(function() {
   var date = $('#date_to_go').val().split('/')
