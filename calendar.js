@@ -33,9 +33,10 @@ TODO:
             short_weekdays: true,
             next_link: '<a href="#"> >> </a>',
             prev_link: '<a href="#" class="prev"> << </a>',
-
+            month_line_class: '',
             day_click_cb: function(){},
-            month_change_cb: function(){}
+            month_change_cb: function(){},
+            month_name_click_cb: function(){}
         }, options );
 
         var l10n = settings.l10n
@@ -87,7 +88,14 @@ TODO:
         function render_month_line() {
             if(!$(settings.next_link).hasClass('next'))
                 settings.next_link = $(settings.next_link).addClass('next')[0].outerHTML
-            return '<p class="month_name">' + settings.prev_link + get_month_name() + ' ' + date.getFullYear() + settings.next_link + '</p>'
+
+            $month_name = $('<span/>').addClass('month_name_text')
+            $month_name.addClass(settings.month_line_class)
+            $month_name.html(get_month_name() + ' ' + date.getFullYear())
+
+            return '<p class="month_name">' +
+                    settings.prev_link + $month_name[0].outerHTML +
+                    settings.next_link + '</p>'
         }
 
         // render de weekdays line
@@ -140,7 +148,7 @@ TODO:
                 }
 
                 $day = $("<span class='day'/>").html(i).css(day_css)
-                $day.data('date', pad(i.toString()) + '/' + (month+1) + '/' + year)
+                $day.data('date', pad(i.toString()) + '/' + pad((month+1).toString()) + '/' + year)
 
                 if(cmonth == imonth && cyear == iyear && i == iday)
                     $day.addClass('today')
@@ -148,7 +156,8 @@ TODO:
                     $day.addClass('past')
                 else if(cmonth == imonth && i < iday)
                     $day.addClass('past')
-
+                else if(cyear < iyear)
+                    $day.addClass('past')
 
                 $days_els.push($day)
                 $line.append($day)
@@ -205,7 +214,7 @@ TODO:
         }
 
         function set_days_click_callback() {
-            $( el ).on( "click", "span", function() {
+            $( el ).on( "click", "span.day", function() {
                 var events_list = self.events_list
                 var index = $(this).data('event_list_index');
                 if(index !== undefined) {
@@ -225,6 +234,12 @@ TODO:
             });
         }
 
+        function set_month_name_click_callback() {
+            $( el ).on("click", ".month_name_text", function() {
+                return settings.month_name_click_cb(date, this)
+            })
+        }
+
         function add_event(evt, index, first) {
             var evt_date = evt.date
             var evt_day = evt_date.getDate()
@@ -232,8 +247,7 @@ TODO:
                 if(date.getMonth() != evt_date.getMonth()
                     || date.getFullYear() != evt_date.getFullYear())
                     self.set_date(evt_date)
-                else if(!already_render)
-                    render_calendar()
+                render_calendar()
             }
 
             var $day = $($days_els[evt_day-1]).addClass('event')
@@ -247,10 +261,14 @@ TODO:
         }
 
         this.set_date = function(new_date) {
+            old_date = date
             date = new_date
             month = date.getMonth()
             year = date.getFullYear()
             render_calendar()
+
+            if(old_date != date)
+                settings.month_change_cb(old_date, date)
         }
 
         this.set_events = function(events_list) {
@@ -259,7 +277,13 @@ TODO:
                 add_event(events_list[i], i, first)
                 first = false
             }
+            if(events_list.length == 0)
+                render_calendar()
             self.events_list = events_list
+        }
+
+        this.get_date = function() {
+            return date
         }
 
         if( settings.auto_render )
@@ -267,6 +291,7 @@ TODO:
 
         set_next_prev_links()
         set_days_click_callback()
+        set_month_name_click_callback()
 
         this.css({
             width: settings.width,
