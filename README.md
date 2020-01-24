@@ -1,4 +1,4 @@
-calendarjs
+EventCalendarJS
 ==========
 
 A simple jquery events calendar plugin
