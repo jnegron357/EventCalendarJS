@@ -36,7 +36,7 @@ function setup(options) {
     if(options == undefined)
         options = {}
 
-    return $('#default_calendar').calendarjs(options)
+    return $('#default_calendar').eventCalendar(options)
 }
 
 function get_prev_next_links(el) {

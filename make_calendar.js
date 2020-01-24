@@ -1,52 +1,25 @@
 // default localization object in PT_BR
-var pt_br = {
-  month_names: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-           'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-  weekdays: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-  weekdays_short: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
-}
-
-$("#date_to_go").mask('99/99/9999')
-
-var dayclick = function(cl, date, evt) {
-  $("#event_list_content").fadeOut('fast',function() {
-    $("#event_list_content").html('')
-    if(!evt)
-      return;
-
-    if($.isArray(evt)) {
-      $(evt).each(function(i, el) {
-        show_event(el.object)
-      })
+var events = {
+  year : {
+    2020 : {
+      month : {
+        january : {
+          name : "event name 1",
+          date : "January 1, "
+        }
+      }
     }
-    else {
-      show_event(evt.object)
-    }
-    $("#event_list_content").fadeIn('fast')
-  })
-}
-
-var show_event = function(evt) {
-  $("#event_list_content").append('<div class="event">');
-  $("#event_list_content").append('<h3>' + evt.title + '</h3>');
-  $("#event_list_content").append('<p class="evt-desc">' + evt.desc + '</p>');
-  $("#event_list_content").append('</div>');
-}
-
-var month_change = function(old, now) {
-  month = now.getMonth()
-  year = now.getFullYear()
-
-  if(year == 2013) {
-    if(month == 10)
-      calendario.set_events(load_events(month))
-    else if(month == 11)
-      calendario.set_events(load_events(month))
   }
-}
+};
 
-var load_events = function(mes) {
-  novembro = [
+
+var monthsAndWeekDays = {
+  month_names : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  weekdays_short: ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat']
+};
+var load_events = {
+  january : [
     {
       date: new Date('2013', '10', '01'),
       object: {'title': 'Teste 11', 'desc': 'Minhas grandes descobertas no jquery11'},
@@ -78,10 +51,9 @@ var load_events = function(mes) {
     {
       date: new Date('2013', '10', '21'),
       object: {'title': 'Teste 45', 'desc': 'Minhas grandes descobertas no jquery45'},
-    },
-  ]
-
-  dezembro = [
+    }
+  ],
+  december : [
     {
       date: new Date('2013', '11', '25'),
       object: {'title': 'Natal parte1', 'desc': 'Feliz natal, hoho'},
@@ -93,29 +65,64 @@ var load_events = function(mes) {
     {
       date: new Date('2013', '11', '31'),
       object: {'title': 'Feliz Ano Novo!', 'desc': 'Grandes conquistas para 2014'},
-    },
+    }
   ]
+};
+var months = {
+  1 : "january",
+  2 : "february",
+  3 : "march",
+  4 : "april",
+  5 : "may",
+  6 : "june",
+  7 : "july",
+  8 : "august",
+  9 : "september",
+  10: "october",
+  11: "november",
+  12: "december"
+};
 
-  if( mes == 10 )
-    return novembro
-  else if( mes == 11 )
-    return dezembro
-  else
-    return []
-}
+$("#date_to_go").mask('99/99/9999');
 
-var calendario = $('.calendar').calendarjs({
-  l10n: pt_br,
-  day_click_cb: dayclick,
+var eventListContent = $("#event_list_content");
+
+var day_click = function(cl, date, evt) {
+  eventListContent.fadeOut('fast', function() {
+    this.html('');
+    if(!evt) return;
+    if($.isArray(evt)) {
+      $(evt).each(function(i, el) {
+        show_event(el.object);
+      })
+    }
+    else {
+      show_event(evt.object);
+    }
+    this.fadeIn('fast');
+  })
+};
+
+var show_event = function(evt) {
+  eventListContent.append('<div class="event">');
+  eventListContent.append('<h3>' + evt.title + '</h3>');
+  eventListContent.append('<p class="evt-desc">' + evt.desc + '</p>');
+  eventListContent.append('</div>');
+};
+
+var month_change = function(old, now) {
+  calendar.set_events(load_events(now.getMonth()));
+};
+
+var calendar = $('.calendar').eventCalendar({
+  day_click_cb: day_click,
   month_change_cb: month_change,
-})
+});
 
-calendario.set_events(load_events(10))
+calendar.set_events(load_events(months[10]));
 
 $("form").submit(function() {
-  var date = $('#date_to_go').val().split('/')
-  if(date.length < 3)
-    return false
-
-  calendario.set_date(new Date(date[2], date[1]-1, date[0]))
-})
+  var date = $('#date_to_go').val().split('/');
+  if(date.length < 3) return false;
+  calendar.set_date(new Date(date[2], date[1]-1, date[0]));
+});

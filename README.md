@@ -26,7 +26,7 @@ Basic usage
 
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="calendar.js" charset="UTF-8"></script>
-    <script>$(".calendar").calendarjs()</script>
+    <script>$(".calendar").eventCalendar()</script>
   </body>
 </html>
 ```
@@ -37,13 +37,13 @@ How to translate
 ```
 // localization object in PT_BR
 var pt_br = {
-  month_names: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
   weekdays: ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-  weekdays_short: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
+  weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab']
 }
 
-$(".calendar").calendarjs({l10n: pt_br})
+$(".calendar").eventCalendar({entityNames: pt_br})
 ```
 
 Complete API
@@ -52,7 +52,7 @@ Complete API
 * ```set_date(dateObject)``` - set the calendar date
 
   Ex:  
-  ```$("calendar").calendarjs().set_date(new Date(2013, 1, 1))```
+  ```$("calendar").eventCalendar().set_date(new Date(2013, 1, 1))```
   
 * set_events(eventList) - Set an event list
 
@@ -75,7 +75,7 @@ Complete API
     },
   ]
   
-  $cl = $('div.calendar').calendarjs()
+  $cl = $('div.calendar').eventCalendar()
   
   $cl.set_events(evtList)
   ```
@@ -88,8 +88,8 @@ Options
 
 * ```width: 400``` -  The with of the calendar, always in px
 * ```height: 230``` - The height of the calendar, always in px 
-* ```auto_render: true``` - Should render calendar automatically when you cal $.calendarjs()
-* ```l10n: dflt_l10n``` - An object which have localized strings
+* ```auto_render: true``` - Should render calendar automatically when you cal $.eventCalendar()
+* ```entityNames: dflt_l10n``` - An object which have localized strings
 * ```date: new Date()``` - The calendar start date
 * ```short_weekdays: true``` - Which format of weekdays should calendar use
 * ```next_link: '<a href="#"> >> </a>'``` - Link to the next month
