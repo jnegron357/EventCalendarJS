@@ -1,24 +1,4 @@
-// default localization object in PT_BR
-var events = {
-  year : {
-    2020 : {
-      month : {
-        january : {
-          name : "event name 1",
-          date : "January 1, "
-        }
-      }
-    }
-  }
-};
-
-
-var monthsAndWeekDays = {
-  month_names : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-  weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-  weekdays_short: ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat']
-};
-var load_events = {
+var event_list = {
   january : [
     {
       date: new Date('2013', '10', '01'),
@@ -89,7 +69,7 @@ var eventListContent = $("#event_list_content");
 
 var day_click = function(cl, date, evt) {
   eventListContent.fadeOut('fast', function() {
-    this.html('');
+    $(this).html('');
     if(!evt) return;
     if($.isArray(evt)) {
       $(evt).each(function(i, el) {
@@ -99,7 +79,7 @@ var day_click = function(cl, date, evt) {
     else {
       show_event(evt.object);
     }
-    this.fadeIn('fast');
+    $(this).fadeIn('fast');
   })
 };
 
@@ -110,8 +90,9 @@ var show_event = function(evt) {
   eventListContent.append('</div>');
 };
 
-var month_change = function(old, now) {
-  calendar.set_events(load_events(now.getMonth()));
+var month_change = function(now) {
+  if(now === undefined) now = new Date();
+  calendar.set_events(event_list[now.getMonth()]);
 };
 
 var calendar = $('.calendar').eventCalendar({
@@ -119,7 +100,9 @@ var calendar = $('.calendar').eventCalendar({
   month_change_cb: month_change,
 });
 
-calendar.set_events(load_events(months[10]));
+let currentDate = new Date();
+let currentMonth = currentDate.getMonth();
+calendar.set_events(event_list[months[currentMonth]]);
 
 $("form").submit(function() {
   var date = $('#date_to_go').val().split('/');

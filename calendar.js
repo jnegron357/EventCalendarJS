@@ -274,8 +274,9 @@ TODO:
         };
 
         this.set_events = function(events_list) {
+            if(events_list === undefined) return;
             let first = true;
-            for(let i=0; i < events_list.length; i++) {
+            for(let i=1; i < events_list.length; i++) {
                 add_event(events_list[i], i, first);
                 first = false;
             }
@@ -284,7 +285,7 @@ TODO:
             self.events_list = events_list;
         };
 
-        this.prototype.getDate = function() {
+        this.getDate = function() {
             return date;
         };
 
